@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import CreateUser from './pages/CreateUser';
+import LoginUser from './pages/LoginUser';
+import Dashboard from './pages/Dashboard';
+import GetCompleteReport from './pages/GetCompleteReport';
+import theme from './utils/themes';
+import { useNavigate } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
-function App() {
+
+const App = () => {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ margin: 0 }}>
+      <CssBaseline />
+    <ThemeProvider theme={theme}>
+      
+        <Router>
+          <Routes>
+            <Route path="/" element={<LoginUser />} />
+            <Route path="/login" element={<LoginUser />} />
+            {/* <Route path="/posts" element={<Posts />} /> */}
+            <Route path="/create_user" element={<CreateUser />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/getcompletereport" element={<GetCompleteReport />} />
+            {/* <Route path="/universal_gpt/outlook" element={<Outlook />} />
+            <Route path="/graph_room/:room_id" element={<GraphRoom />} /> */}
+          </Routes>
+        </Router>
+    
+
+    </ThemeProvider>
     </div>
   );
-}
+};
 
 export default App;
