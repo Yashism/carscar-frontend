@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField, Container, Typography, CssBaseline, AppBar, Toolbar, BottomNavigation } from '@mui/material';
+import { Button, TextField, Container, CircularProgress,Typography, CssBaseline, AppBar, Toolbar, BottomNavigation } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Box, Grid } from '@mui/material';
 
@@ -15,31 +15,68 @@ const GetCompleteReport = () => {
     const [model, setModel] = useState('');
     const [uploadedImages, setUploadedImages] = useState([]);
     const [year, setYear] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
 
+    const handleVin= async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData();
+        formData.append('vin_number', vinnumber);
+        
+    
+        try {
+            const response = await fetch('/api/get_VIN_infoV2', {
+                method: 'POST',
+                body: formData,
+            });
+            const responseData = await response.json();
+            
+    
+            
+            if (response) {
+                console.log("This is what you have logged : ", responseData);
+
+                // Handle success - e.g., show a success message, reset the form, etc.
+            } else {
+                console.error(response.data);
+                // Handle error - show an error message to the user, etc.
+            }
+        } catch (error) {
+            console.error('There was an error sending the data', error);
+        }
+    }
+
     const handleManual = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         const formData = new FormData();
         formData.append('make', make);
         formData.append('model', model);
         formData.append('year', year);
+        formData.append('vin_number', vinnumber);
         uploadedImages.forEach((img) => {
             formData.append('images', img);
         });
     
         try {
-            const response = await fetch('/api/addCar', {
+            const response = await fetch(`${process.env.REACT_APP_BACK_END_URL}/api/addCar`, {
                 method: 'POST',
                 body: formData,
             });
+            const responseData = await response.json();
+            
     
-            const data = await response;
+            
             if (response) {
-                console.log(data);
+                console.log("This is what you have logged : ", responseData);
+                setIsLoading(false);
+                navigate('/showreport', { state: responseData });
                 // Handle success - e.g., show a success message, reset the form, etc.
             } else {
-                console.error(data);
+                setIsLoading(false);
+                console.error(response.data);
                 // Handle error - show an error message to the user, etc.
             }
         } catch (error) {
@@ -71,7 +108,7 @@ const GetCompleteReport = () => {
 
                     <Box
                         component="form"
-                        //   onSubmit={handleSubmit} 
+                        onSubmit={handleManual} 
                         noValidate
                         sx={{
                             mt: 3,
@@ -107,6 +144,29 @@ const GetCompleteReport = () => {
                                 },
                             }}
                         />
+                        <Button
+    variant="outlined"
+    component="label"
+    sx={{
+        mb: 2,
+    }}
+>
+    Upload Images
+    <input
+        type="file"
+        accept="image/*"
+        hidden
+        multiple
+        onChange={(e) => {
+            const files = Array.from(e.target.files);
+            setUploadedImages(files);
+        }}
+    />
+</Button>
+
+{uploadedImages.map((image, index) => (
+    <p key={index}>{image.name}</p>
+))}
                         <Button
           type="submit"
           fullWidth
@@ -244,7 +304,24 @@ const GetCompleteReport = () => {
 
                     </Box>
                 </Box>
-
+                {isLoading && (
+                <Box
+                    sx={{
+                        position: 'fixed', // This will make the loader overlay on top of the content
+                        top: 0,
+                        left: 0,
+                        width: '100vw',
+                        height: '100vh',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',  // semi-transparent background
+                    }}
+                >
+                    <CircularProgress size={80} color="inherit" 
+                        sx={{ color: theme.palette.white[900] }}  />
+                </Box>
+            )}
             </Container>
         </>
     )

@@ -4,6 +4,7 @@ import CreateUser from './pages/CreateUser';
 import LoginUser from './pages/LoginUser';
 import Dashboard from './pages/Dashboard';
 import GetCompleteReport from './pages/GetCompleteReport';
+import ShowReport from './pages/ShowReport';
 import theme from './utils/themes';
 import { useNavigate } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
@@ -25,6 +26,7 @@ const App = () => {
             <Route path="/create_user" element={<CreateUser />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/getcompletereport" element={<GetCompleteReport />} />
+            <Route path="/showreport" element={<ShowReport />} />
             {/* <Route path="/universal_gpt/outlook" element={<Outlook />} />
             <Route path="/graph_room/:room_id" element={<GraphRoom />} /> */}
           </Routes>
