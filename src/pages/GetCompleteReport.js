@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField, Container, CircularProgress,Typography, CssBaseline, AppBar, Toolbar, BottomNavigation } from '@mui/material';
+import { Button, TextField, Container, CircularProgress,Typography, CssBaseline, Link,AppBar, Toolbar, BottomNavigation } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { Box, Grid } from '@mui/material';
 
-
+import CarCrashIcon from '@mui/icons-material/CarCrash';
 
 
 
@@ -88,9 +88,12 @@ const GetCompleteReport = () => {
         <>
             <AppBar position="static" style={{ background: theme.palette.red[500] }}>
                 <Toolbar>
-                    <Typography variant="h6" style={{ flexGrow: 1, color: theme.palette.text.primary }}>
+                    <Link href="/" style={{ textDecoration: 'none' }}>
+                    <Typography variant="h4" style={{ flexGrow: 1, color: theme.palette.text.primary }}>
+                        <CarCrashIcon/>
                         CarScar
                     </Typography>
+                    </Link>
                 </Toolbar>
             </AppBar>
             <Container component="main" maxWidth="md" >
@@ -112,7 +115,7 @@ const GetCompleteReport = () => {
                         noValidate
                         sx={{
                             mt: 3,
-                            width: '100%',
+                            minWidth: '50%',
                             alignItems: 'center',
                             justifyContent: 'center',
                             display: 'flex',
@@ -191,7 +194,7 @@ const GetCompleteReport = () => {
                         noValidate
                         sx={{
                             mt: 3,
-                            width: '100%',
+                            minWidth: '50%',
                             alignItems: 'center',
                             justifyContent: 'center',
                             display: 'flex',

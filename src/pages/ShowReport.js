@@ -1,11 +1,13 @@
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';
-import { Button, Box, TextField, Container, Typography, CssBaseline, AppBar, Toolbar, BottomNavigation, Paper, Divider } from '@mui/material';
+import { Button, Box, TextField, Container, Typography, CssBaseline, Link, AppBar, Toolbar, BottomNavigation, Paper, Divider } from '@mui/material';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import BuildIcon from '@mui/icons-material/Build';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import PaymentIcon from '@mui/icons-material/Payment';
+import CarCrashIcon from '@mui/icons-material/CarCrash';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 
 const ShowReport = () => {
     const location = useLocation();
@@ -16,9 +18,12 @@ const ShowReport = () => {
         <>
             <AppBar position="static" style={{ background: theme.palette.red[500] }}>
                 <Toolbar>
-                    <Typography variant="h6" style={{ flexGrow: 1, color: theme.palette.text.primary }}>
-                        CarScar Report
-                    </Typography>
+                    <Link href="/" style={{ textDecoration: 'none' }}>
+                        <Typography variant="h4" style={{ flexGrow: 1, color: theme.palette.text.primary }}>
+                            <CarCrashIcon />
+                            CarScar
+                        </Typography>
+                    </Link>
                 </Toolbar>
             </AppBar>
             <Container component="main" maxWidth="md">
@@ -35,7 +40,14 @@ const ShowReport = () => {
                             Damage Analysis
                         </Typography>
                         <Divider variant="middle" style={{ margin: theme.spacing(2, 0) }} />
+
                         <Box display="flex" flexDirection="column" gap={2}>
+                            <Box display="flex" alignItems="center">
+                                <DirectionsCarIcon fontSize="large" color="error" style={{ marginRight: theme.spacing(2) }} />
+                                <Typography variant="h6" style={{ flexGrow: 1, color: theme.palette.gray[900] }}>
+                                    Make: {reportData["data"]["model"]} {reportData["data"]["make"]} {reportData["data"]["year"]} 
+                                </Typography>
+                            </Box>
                             <Box display="flex" alignItems="center">
                                 <MonetizationOnIcon fontSize="large" color="primary" style={{ marginRight: theme.spacing(2) }} />
                                 <Typography variant="h6" style={{ flexGrow: 1, color: theme.palette.gray[900] }}>
@@ -45,8 +57,8 @@ const ShowReport = () => {
                             <Box display="flex" alignItems="center">
                                 <BuildIcon fontSize="large" color="secondary" style={{ marginRight: theme.spacing(2) }} />
                                 <Typography variant="h6" style={{ flexGrow: 1, color: theme.palette.gray[900] }}>
-    Parts to be replaced: {reportData["data"]["Parts to be replaced"].join(", ")}
-</Typography>
+                                    Parts to be replaced: {reportData["data"]["Parts to be replaced"].join(", ")}
+                                </Typography>
 
                             </Box>
                             <Box display="flex" alignItems="center">
